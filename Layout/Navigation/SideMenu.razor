@@ -1,0 +1,31 @@
+<div class="mobile-sidebar @(IsOpened ? "open" : "")">
+    <button class="close-btn" @onclick="CloseMenu">✕</button>
+
+    <div class="sidebar-content">
+        <div class="sidebar-links">
+            @foreach (var item in NavItems)
+            {
+                <NavLinkItem Text="@item.Text" Href="@item.Href" CssClass="@item.CssClass" OnClickHandler="CloseMenu" />
+            }
+        </div>
+
+        <div class="sidebar-contact">
+            <NavLinkItem Text="@Contact.Text" Href="@Contact.Href" CssClass="@Contact.CssClass"
+                OnClickHandler="CloseMenu" />
+        </div>
+    </div>
+</div>
+
+@if (IsOpened)
+{
+    <div class="sidebar-overlay" @onclick="CloseMenu"></div>
+}
+
+@code {
+    [Parameter] public bool IsOpened { get; set; } = false;
+    [Parameter] public EventCallback OnClose { get; set; }
+    [Parameter] public NavLinkItemData[] NavItems { get; set; } = null!;
+    [Parameter] public NavLinkItemData Contact { get; set; } = null!;
+
+    private Task CloseMenu() => OnClose.InvokeAsync();
+}
