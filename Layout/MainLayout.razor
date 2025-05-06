@@ -1,42 +1,38 @@
 ﻿@inherits LayoutComponentBase
-@using MyPortfolio.Layout.Navigation
-@using MyPortfolio.Models.Navigation
-@using MyPortfolio.Models
+
+<PageTitle>My Portfolio</PageTitle>
 
 <div class="page">
 	<main>
-		<NavMenu Brand="@MainLayoutData.BrandInfo" NavLinkItems="@MainLayoutData.NavLinkItems"
-			ContactData="@MainLayoutData.ContactData" />
+		<div class="nav-bar">
+			<NavMenu />
+		</div>
 
-		<article class="content">
-			<Counter />
+		<Home />
+
+		<section id="@AppLayoutData.NavigationLinkItems[0].GetFormattedTargetUrl(TargetUrlFormat.Plain)">
+			About Me
 			<Home />
+		</section>
+
+		<section id="@AppLayoutData.NavigationLinkItems[1].GetFormattedTargetUrl(TargetUrlFormat.Plain)">
+			Skills
 			<Home />
+		</section>
+
+		<section id="@AppLayoutData.NavigationLinkItems[2].GetFormattedTargetUrl(TargetUrlFormat.Plain)">
+			Projects
 			<Home />
+		</section>
+
+		<section id="@AppLayoutData.NavigationLinkItems[3].GetFormattedTargetUrl(TargetUrlFormat.Plain)">
+			Resume
 			<Home />
+		</section>
+
+		<section id="@AppLayoutData.ContactNavigationLink.GetFormattedTargetUrl(TargetUrlFormat.Plain)">
+			Contact Me
 			<Home />
-			<Home />
-			<Home />
-			<Home />
-			<Home />
-			<Home />
-			<Home />
-			<Home />
-			<Home />
-			<Home />
-			<Home />
-			<Home />
-			<Home />
-			<Home />
-			<Home />
-			<Home />
-			<section id="home">
-				<Home />
-			</section>
-		</article>
+		</section>
 	</main>
 </div>
-
-@code {
-	[Parameter] public MainLayoutData MainLayoutData { get; set; } = new();
-}
