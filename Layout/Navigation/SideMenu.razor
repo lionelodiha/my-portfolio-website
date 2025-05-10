@@ -1,31 +1,32 @@
-<div class="mobile-sidebar @(IsOpened ? "open" : "")">
-    <button class="close-btn" @onclick="CloseMenu">✕</button>
+<div class="side-bar @(IsOpened ? "--open" : "")">
+    <img class="side-bar__close-btn" src="images/cross-small.svg" @onclick="CloseMenu" />
 
-    <div class="sidebar-content">
-        <div class="sidebar-links">
-            @foreach (NavLinkItemData item in AppLayoutData.NavigationLinkItems)
+    <div class="side-bar__content">
+        <div class="side-bar__links">
+            @foreach (NavigationLinkItemInfo item in AppLayoutData.NavigationLinks)
             {
-                <NavLinkItem DisplayText="@item.DisplayText"
-                    TargetUrl="@item.GetFormattedTargetUrl(TargetUrlFormat.HashPrefix)" CssClassName="@item.CssClassName"
-                    OnClickHandler="CloseMenu" />
+                <div class="side-bar__link">
+                    <NavLinkItem NavigationLinkInfo="item" LinkType="@TargetUrlFormat.HashPrefix"
+                        OnNavMenuItemClick="CloseMenu" />
+                </div>
             }
         </div>
 
-        <div class="sidebar-contact">
-            <NavLinkItem DisplayText="@AppLayoutData.ContactNavigationLink.DisplayText"
-                TargetUrl="@AppLayoutData.ContactNavigationLink.GetFormattedTargetUrl(TargetUrlFormat.HashPrefix)"
-                CssClassName="@AppLayoutData.ContactNavigationLink.CssClassName" OnClickHandler="CloseMenu" />
+        <div class="side-bar__contact">
+            <NavLinkItem NavigationLinkInfo="AppLayoutData.ContactLinkAccent" LinkType="@TargetUrlFormat.HashPrefix"
+                OnNavMenuItemClick="CloseMenu" />
         </div>
     </div>
 </div>
 
 @if (IsOpened)
 {
-    <div class="sidebar-overlay" @onclick="CloseMenu"></div>
+    <div class="side-bar__backdrop" @onclick="CloseMenu"></div>
 }
 
 @code {
     [Parameter, EditorRequired] public bool IsOpened { get; set; } = false;
     [Parameter] public EventCallback OnClose { get; set; }
     public Task CloseMenu() => OnClose.InvokeAsync();
+
 }

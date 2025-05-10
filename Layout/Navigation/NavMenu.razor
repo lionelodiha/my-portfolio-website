@@ -1,25 +1,22 @@
 ﻿@inject IJSRuntime Js
 @implements IDisposable
 
-<nav class="top-nav">
-    <div class="nav-container">
-        <NavBrand Brand="@AppLayoutData.NavigationBrandData" />
+<nav class="nav-bar">
+    <div class="nav-bar__container">
+        <Brand BrandInfo="@AppLayoutData.BrandInfo" />
 
-        <div class="nav-center">
-            @foreach (NavLinkItemData item in AppLayoutData.NavigationLinkItems)
+        <div class="nav-bar__links">
+            @foreach (NavigationLinkItemInfo item in AppLayoutData.NavigationLinks)
             {
-                <NavLinkItem DisplayText="@item.DisplayText"
-                    TargetUrl="@item.GetFormattedTargetUrl(TargetUrlFormat.HashPrefix)" CssClassName="@item.CssClassName" />
+                <NavLinkItem NavigationLinkInfo="item" />
             }
         </div>
 
-        <div class="nav-right">
-            <NavLinkItem DisplayText="@AppLayoutData.ContactNavigationLink.DisplayText"
-                TargetUrl="@AppLayoutData.ContactNavigationLink.GetFormattedTargetUrl(TargetUrlFormat.HashPrefix)"
-                CssClassName="@AppLayoutData.ContactNavigationLink.CssClassName" />
+        <div class="nav-bar__contact-link">
+            <NavLinkItem NavigationLinkInfo="@AppLayoutData.ContactLink" />
         </div>
 
-        <button class="menu-toggle" @onclick="ToggleSidebar">☰</button>
+        <img class="nav-bar__toggle" src="images/menu-burger.svg" @onclick="ToggleSidebar" />
     </div>
 </nav>
 
@@ -40,7 +37,7 @@
     [JSInvokable]
     public void OnResize(int width)
     {
-        if (width > 920 && isSidebarOpen)
+        if (width >= 992 && isSidebarOpen)
         {
             isSidebarOpen = false;
             StateHasChanged();

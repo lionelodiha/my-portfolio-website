@@ -1,46 +1,54 @@
+using MyPortfolio.Contracts;
 using MyPortfolio.Models.Home;
 using MyPortfolio.Models.Navigation;
+using MyPortfolio.Models.UI;
 
 namespace MyPortfolio.Models;
 
-public static class AppLayoutData
+public class AppLayoutData : IAppLayoutData
 {
-	public static NavBrandData NavigationBrandData { get; set; } = new(
-		"Images/icon.svg",
-		"GOSIjnr",
-		"Logo"
-	);
+	private static readonly BrandInfo _brandInfo = new("images/icon.svg", "GOSIjnr", "Logo");
 
-	public static NavLinkItemData[] NavigationLinkItems { get; set; } =
+	private static readonly List<NavigationLinkItemInfo> _navigationLinks =
 	[
-		new("About Me", "aboutme", "nav-text"),
-		new("Skills", "skills", "nav-text"),
-		new("Projects", "projects", "nav-text"),
-		new("Resume", "resume", "nav-text"),
+		new("About Me", "aboutme", ""),
+		new("Skills", "skills", ""),
+		new("Projects", "projects", ""),
+		new("Resume", "resume", ""),
 	];
 
-	public static NavLinkItemData ContactNavigationLink { get; set; } = new(
-		"Let's Connect",
-		"contact",
-		"nav-button"
-	);
+	private static readonly NavigationLinkItemInfo _contactNavigationLink = new("Let's Connect", "contact", "button");
+	private static readonly NavigationLinkItemInfo _contactNavigationLinkAccent = new("Let's Connect", "contact", "button-accent");
+	private static readonly NavigationLinkItemInfo _projectsNavigationLink = new("Check My Works", "projects", "button");
 
-	public static NavLinkItemData ContactNavigationLinkAccent { get; set; } = new(
-		"Let's Connect",
-		"contact",
-		"nav-button-accent"
-	);
-
-	public static HomeData HomePageData { get; set; } = new(
+	private static readonly HomePageContentInfo _homePageContentInfo = new(
 		"Code. Design. Deploy. ",
 		"Play.",
 		"I turn caffeine into code, pixels into purpose, and bugs into... features (sometimes).",
-		"Images/backdrop.jpg"
+		"images/backdrop.jpg"
 	);
 
-	public static NavLinkItemData CheckProjectsNavigationLink { get; set; } = new(
-		"Check My Works",
-		"projects",
-		"nav-button"
-	);
+	private const string _profileImageUrl = "https://github.com/GOSIjnr.png";
+	private const string _profileImageAltText = "Chinedu Victor Awugosi";
+	private const string _aboutMeSectionTitle = "Hi, I'm Chinedu Victor Awugosi — a developer passionate about creating seamless user experiences, solving complex problems, and occasionally exploring game engines for fun.";
+	private const string _aboutMeSectionDescription = "I'm passionate about creating digital experiences, from solving intricate technical challenges to crafting smooth, intuitive interfaces. What started as a curiosity has evolved into a passion of mine. Outside of development, I explore new technologies and brainstorm game ideas. This portfolio showcases the work I love and the projects I've built — thanks for visiting.";
+
+	private static readonly List<SocialMediaIconInfo> _socialMediaIconList =
+	[
+		new("Github", "images/github.svg", "https://github.com/GOSIjnr", "Github"),
+		new("Discord", "images/discord.svg", "https://discord.com/users/GOSIjnr", "Discord"),
+		new("Twitter", "images/twitter.svg", "https://twitter.com/GOSIjnr", "Twitter"),
+	];
+
+	public BrandInfo BrandInfo { get; } = _brandInfo;
+	public List<NavigationLinkItemInfo> NavigationLinks { get; } = _navigationLinks;
+	public NavigationLinkItemInfo ContactLink { get; } = _contactNavigationLink;
+	public NavigationLinkItemInfo ContactLinkAccent { get; } = _contactNavigationLinkAccent;
+	public NavigationLinkItemInfo ProjectsLink { get; } = _projectsNavigationLink;
+	public HomePageContentInfo HomePageContent { get; } = _homePageContentInfo;
+	public string ProfileImageUrl { get; } = _profileImageUrl;
+	public string ProfileImageAltText { get; } = _profileImageAltText;
+	public string AboutMeSectionTitle { get; } = _aboutMeSectionTitle;
+	public string AboutMeSectionDescription { get; } = _aboutMeSectionDescription;
+	public List<SocialMediaIconInfo> SocialMediaIcons { get; } = _socialMediaIconList;
 }

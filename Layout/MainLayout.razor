@@ -4,35 +4,50 @@
 
 <div class="page">
 	<main>
-		<div class="nav-bar">
+		<div class="page__nav-bar">
 			<NavMenu />
 		</div>
 
-		<Home />
+		<section id="home">
+			<Home />
+		</section>
 
-		<section id="@AppLayoutData.NavigationLinkItems[0].GetFormattedTargetUrl(TargetUrlFormat.Plain)">
-			About Me
+		<section id="@NavigationLinks[0]">
 			<AboutMe />
 		</section>
 
-		<section id="@AppLayoutData.NavigationLinkItems[1].GetFormattedTargetUrl(TargetUrlFormat.Plain)">
+		<section id="@NavigationLinks[1]">
 			Skills
 			<Home />
 		</section>
 
-		<section id="@AppLayoutData.NavigationLinkItems[2].GetFormattedTargetUrl(TargetUrlFormat.Plain)">
+		<section id="@NavigationLinks[2]">
 			Projects
 			<Home />
 		</section>
 
-		<section id="@AppLayoutData.NavigationLinkItems[3].GetFormattedTargetUrl(TargetUrlFormat.Plain)">
+		<section id="@NavigationLinks[3]">
 			Resume
 			<Home />
 		</section>
 
-		<section id="@AppLayoutData.ContactNavigationLink.GetFormattedTargetUrl(TargetUrlFormat.Plain)">
+		<section id="@NavigationLinks[4]">
 			Contact Me
 			<Home />
 		</section>
 	</main>
 </div>
+
+@code {
+	public List<string> NavigationLinks { get; set; } = [];
+
+	protected override void OnInitialized()
+	{
+		foreach (NavigationLinkItemInfo link in AppLayoutData.NavigationLinks)
+		{
+			NavigationLinks.Add(NavigationUrlFormatter.GetFormattedSanitizedTargetUrl(link.RawTargetUrl));
+		}
+
+		NavigationLinks.Add(NavigationUrlFormatter.GetFormattedSanitizedTargetUrl(AppLayoutData.ContactLink.RawTargetUrl));
+	}
+}

@@ -1,15 +1,15 @@
 :root {
-    --color-primary: #0f0f0f;
+    --color-primary-main: #181818;
     --color-primary-muted: #a3a3a3;
-    --color-primary-overlay: #0f0f0fd3;
+    --color-primary-overlay: #181818b2;
 
-    --color-background: #ffffff;
+    --color-background-main: #ffffff;
     --color-background-muted: #cccccc;
-    --color-accent: #ff6600;
-    --color-accent: #ff3a0eff;
 
-    --font-heading: 'Montserrat', sans-serif;
-    --font-body: 'Open Sans', sans-serif;
+    --color-accent-main: #ff6600;
+
+    --font-family-heading: 'Montserrat', sans-serif;
+    --font-family-body: 'Open Sans', sans-serif;
 }
 
 h1,
@@ -18,12 +18,16 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: var(--font-heading);
+    font-family: var(--font-family-heading);
+    color: var(--color-background-main);
 }
 
 html,
 body {
-    font-family: var(--font-body)
+    color: var(--color-background-main);
+    background-color: var(--color-primary-main);
+    font-family: var(--font-family-body);
+    overflow-x: hidden;
 }
 
 #blazor-error-ui {
