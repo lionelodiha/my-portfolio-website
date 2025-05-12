@@ -1,0 +1,33 @@
+@inject IJSRuntime JS
+
+<div class="resume">
+	<div class="resume__card">
+		<h2 class="resume__title">My Resume</h2>
+		<p class="resume__description">
+			You can download or preview my resume using either of the buttons below.
+		</p>
+
+		<div class="resume__actions">
+			<button class="resume__button" @onclick="DownloadResume">Download Resume (DOCX)</button>
+			<button class="resume__button resume__button--secondary" @onclick="PreviewResume">Preview Resume (PDF
+				Style)</button>
+		</div>
+	</div>
+</div>
+
+@code {
+	private string docxFileId = "1MzGAi5-EJ6ha75l0QApr65q9UUFGF68K";
+	private string previewFileId = "1MzGAi5-EJ6ha75l0QApr65q9UUFGF68K";
+
+	private async Task DownloadResume()
+	{
+		string url = $"https://drive.google.com/uc?export=download&id={docxFileId}";
+		await JS.InvokeVoidAsync("downloadFile", url);
+	}
+
+	private async Task PreviewResume()
+	{
+		string previewUrl = $"https://drive.google.com/file/d/{previewFileId}/preview";
+		await JS.InvokeVoidAsync("openFileInNewTab", previewUrl);
+	}
+}
