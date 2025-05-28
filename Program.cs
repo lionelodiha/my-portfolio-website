@@ -1,14 +1,19 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MyPortfolio;
-using MyPortfolio.Contracts;
 using MyPortfolio.Models;
+using MyPortfolio.Services.State;
 
 WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddSingleton<IAppLayoutData>(new AppLayoutData());
+builder.Services.AddScoped<SelectedServiceState>();
+builder.Services.AddSingleton(new AppContent
+{
+	User = new GosiJnrProfileData(),
+	Layout = new PortfolioLayoutData()
+});
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 

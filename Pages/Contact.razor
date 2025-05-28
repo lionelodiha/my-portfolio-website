@@ -1,22 +1,52 @@
-<div class="contact">
-	<h2 class="contact__title">Contact Me</h2>
+@page "/contact"
 
-	<div class="contact__info">
-		<p class="contact__email">
-			Email: <a href="mailto:gosijnr7@yahoo.com" class="contact__link">gosijnr7@yahoo.com</a>
-		</p>
-		<div class="contact__social">
-			<p>Follow me:</p>
-			<ul class="contact__social-list">
-				@foreach (var social in AppLayoutData.SocialMediaIcons)
-				{
-					<li class="contact__social-item">
-						<a href="@social.ProfilePageUrl" class="contact__social-link" target="_blank">
-							<img src="@social.IconImageUrl" class="contact__social-icon" />
-						</a>
-					</li>
-				}
-			</ul>
+<div class="contact">
+	<div class="contact__grid">
+		<ContactForm ServicesNames="@_serviceNames" SelectedService="@_selectedService?.Name" />
+
+		<div class="contact__info">
+			@foreach (ContactInfo info in _contactInfos)
+			{
+				<ContactOption ContactInfo="@info" />
+			}
 		</div>
 	</div>
 </div>
+
+@code {
+	[Inject] private AppContent AppContent { get; set; } = null!;
+	[Inject] private SelectedServiceState SelectedServiceState { get; set; } = null!;
+
+	private ServiceInfo? _selectedService;
+	private List<string> _serviceNames = [];
+	private List<ContactInfo> _contactInfos = new List<ContactInfo>();
+
+	protected override void OnInitialized()
+	{
+		ConsumeSelectedService();
+		PopulateServicesOffered();
+		PopulateContactInfos();
+	}
+
+	private void ConsumeSelectedService()
+	{
+		_selectedService = SelectedServiceState.ConsumeSelectedService();
+	}
+
+	private void PopulateServicesOffered()
+	{
+
+		foreach (ServiceInfo serviceInfo in AppContent.User.ServiceInfos)
+		{
+			_serviceNames.Add(serviceInfo.Name);
+		}
+
+		_serviceNames.Add("Others");
+	}
+
+	private void PopulateContactInfos()
+	{
+		_contactInfos.AddRange(AppContent.User.ContactInfos);
+		_contactInfos.AddRange(AppContent.User.SocialLinks);
+	}
+}
