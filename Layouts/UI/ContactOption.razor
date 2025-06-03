@@ -9,13 +9,13 @@
 		<p class="contact-option__detail">
 			@switch (ContactInfo.Type)
 			{
-				case ContactType.Email:
+				case LinkType.Email:
 					<a href="mailto:@ContactInfo.Link">@ContactInfo.Detail</a>
 					break;
-				case ContactType.Phone:
+				case LinkType.Phone:
 					<a href="tel:@ContactInfo.Link">@ContactInfo.Detail</a>
 					break;
-				case ContactType.Link:
+				case LinkType.Link:
 					<a href="@ContactInfo.Link" target="_blank" rel="noopener noreferrer">@ContactInfo.Detail</a>
 					break;
 				default:
@@ -27,11 +27,12 @@
 </div>
 
 @code {
-	[Parameter, EditorRequired] public ContactInfo ContactInfo { get; set; } = new();
+	[Parameter, EditorRequired] public LinkInfo ContactInfo { get; set; } = new();
 
 	[Inject] private IJSRuntime JS { get; set; } = null!;
 
-	private string _contactIconId = $"contact-option__icon-{Guid.NewGuid():N}";
+	private string _contactIconId = $"contact-option__icon--{Guid.NewGuid():N}";
+
 	private string _contactIconUrl => ContactInfo.IconUrl;
 	private string _contactTitle => ContactInfo.Title;
 	private string _contactDetail => ContactInfo.Detail;
@@ -42,8 +43,14 @@
 	{
 		if (firstRender)
 		{
-			await JS.InvokeVoidAsync("imageLoader.applyMaskWithFallback", _contactIconId, "--contact-icon-image", _contactIconUrl,
-			FallbackIcon, true);
+			await JS.InvokeVoidAsync("imageLoader.applyCssImageWithFallback", new ImageLoaderOptions
+			{
+				ElementId = _contactIconId,
+				CssProperty = "--contact-icon-image",
+				ImageUrl = _contactIconUrl,
+				FallbackUrl = FallbackIcon,
+				UseVariable = true
+			});
 		}
 	}
 }
