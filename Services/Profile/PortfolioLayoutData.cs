@@ -1,10 +1,11 @@
-using MyPortfolio.Contracts;
+using MyPortfolio.Core.Enum;
 using MyPortfolio.Models.Contact;
 using MyPortfolio.Models.Home;
 using MyPortfolio.Models.Navigation;
 using MyPortfolio.Models.Resume;
+using MyPortfolio.Services.Contracts;
 
-namespace MyPortfolio.Models.Profile;
+namespace MyPortfolio.Services.Profile;
 
 public class PortfolioLayoutData : IAppLayoutData
 {
@@ -37,12 +38,6 @@ public class PortfolioLayoutData : IAppLayoutData
 		new("About Me"),
 		new("Experience"),
 		new("Skills"),
-		new(),
-		new(),
-		new(),
-		new(),
-		new(),
-		new(),
 	];
 
 	public List<NavigationItem> NavigationLinks => _navigationLinks;
