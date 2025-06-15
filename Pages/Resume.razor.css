@@ -13,8 +13,8 @@
 	--resume-color-primary: var(--color-1-light);
 	--resume-color-hover: var(--color-1-lighter);
 	--resume-color-active: var(--color-2-lighter);
-	--resume-color-text: var(--color-3-lighter);
-	--resume-color-subtext: var(--color-3-darker);
+	--resume-color-text: var(--color-3-lightest);
+	--resume-color-subtext: var(--color-3-dark);
 	--resume-font-family: var(--font-1);
 }
 
@@ -47,7 +47,7 @@
 	flex-direction: column;
 	gap: 1.3rem;
 	margin-bottom: 2rem;
-	max-height: 200px;
+	max-height: 250px;
 	overflow: auto;
 	padding: 0 0.45rem;
 	scrollbar-width: thin;
@@ -98,6 +98,10 @@
 	background-color: var(--resume-color-active);
 }
 
+.resume__content {
+	width: 100%;
+}
+
 @media (min-width: 768px) {
 	.resume {
 		flex-direction: row;
@@ -106,6 +110,7 @@
 
 	.resume__nav {
 		width: 300px;
+		flex-shrink: 0;
 	}
 
 	.resume__title,

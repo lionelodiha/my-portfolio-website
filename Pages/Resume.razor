@@ -24,11 +24,11 @@
 </div>
 
 @code {
-    [Inject] private AppContent AppContent { get; set; } = null!;
+    [Inject] private AppContent? AppContent { get; set; }
 
-    private ResumeHeaderLayoutData _resumeHeader => AppContent.Layout.ResumeHeaderLayoutData;
-    private List<ResumeTabItemLayoutData> _resumeSections => AppContent.Layout.ResumeTabItemLayoutData.Where(x => x is not
-    null).ToList();
+    private ResumeHeaderLayoutData _resumeHeader => AppContent?.Layout?.ResumeHeaderLayoutData ?? new();
+    private List<ResumeTabItemLayoutData> _resumeSections => AppContent?.Layout?.ResumeTabItemLayoutData.Where(x => x is not
+    null).ToList() ?? [];
 
     private string _currentSection = "AboutMe";
 
@@ -42,16 +42,19 @@
         switch (_currentSection)
         {
             case "AboutMe":
-                return @<p>About Me content placeholder.</p>;
+                return @<AboutMeSection />;
+
+            case "Education":
+                return @<UnknownSection />;
 
             case "Experience":
-                return @<p>Experience content placeholder.</p>;
+                return @<ExperienceSection />;
 
             case "Skills":
-                return @<p>Skills content placeholder.</p>;
+                return @<SkillSection />;
 
             default:
-                return @<p>Section not found.</p>;
+                return @<UnknownSection />;
         }
     }
 }

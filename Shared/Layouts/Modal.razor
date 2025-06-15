@@ -1,0 +1,21 @@
+@if (IsVisible)
+{
+	<div class="modal" @onclick="Close">
+		<div class="modal__content" @onclick:stopPropagation="true">
+			<button class="modal__close-btn modal__close-btn--mask" type="button" title="Close menu" @onclick="Close" />
+			@ChildContent
+		</div>
+	</div>
+}
+
+@code {
+	[Parameter] public bool IsVisible { get; set; }
+	[Parameter] public EventCallback<bool> IsVisibleChanged { get; set; }
+	[Parameter] public RenderFragment? ChildContent { get; set; }
+
+	private async Task Close()
+	{
+		IsVisible = false;
+		await IsVisibleChanged.InvokeAsync(IsVisible);
+	}
+}
