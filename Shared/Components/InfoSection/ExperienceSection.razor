@@ -1,10 +1,11 @@
 <div class="experience-section">
-    <h2 class="experience-section__heading">My experience</h2>
+    <h2 class="experience-section__heading">My Experience</h2>
     <p class="experience-section__description">@_description</p>
 
     <div class="experience-section__grid">
-        @foreach (InfoCardModel cardData in _adaptedExperienceCards)
+        @foreach (InfoCardModel? cardData in _adaptedExperienceCards)
         {
+            if (cardData is null) continue;
             <InfoCard InfoCardData="@cardData" OnReadMoreClicked="@(() => ShowModal(cardData))" />
         }
     </div>
