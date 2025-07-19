@@ -1,8 +1,5 @@
-@inject ScrollLockService ScrollLockService
-@implements IAsyncDisposable
-
 <div class="side-bar">
-    <div class="side-bar__slider @(IsOpened ? "side-bar__slider--open" : "")">
+    <div class="side-bar__slider @(IsOpened ? "side-bar__slider--open" : string.Empty)">
         <button class="side-bar__close-btn side-bar__close-btn--mask" type="button" title="Close menu"
             @onclick="CloseMenu" />
 
@@ -12,19 +9,18 @@
                     <Brand BrandInfo="_brand" OnBrandClick="CloseMenu" />
                 </div>
 
-                @foreach (NavigationItem? item in _navigationItems)
+                @foreach (NavigationLinkInfo item in _navigationItems)
                 {
-                    if (item is null) continue;
                     <div class="side-bar__link">
-                        <NavLinkItem NavigationLinkInfo="item" LinkType="@TargetUrlFormat.Plain"
+                        <NavLinkItem NavigationLinkInfo="item" ExternalLinkType="@TargetUrlFormat.Plain"
                             OnNavItemClick="CloseMenu" />
                     </div>
                 }
             </div>
 
             <div class="side-bar__contact-link">
-                <NavLinkItem NavigationLinkInfo="@_contactMeLink" LinkType="TargetUrlFormat.Plain"
-                    OnButtonItemClick="HandleContactMeClick" />
+                <NavLinkItem NavigationLinkInfo="@_contactMeLink" ExternalLinkType="TargetUrlFormat.Plain"
+                    OnNavItemClick="HandleContactMeClick" IsButton="true" />
             </div>
         </div>
     </div>
@@ -36,40 +32,31 @@
 </div>
 
 @code {
-    [Parameter, EditorRequired] public bool IsOpened { get; set; }
+    [Inject] private PortfolioData AppContent { get; set; } = null!;
+
+    [Parameter, EditorRequired] public bool IsOpened { get; set; } = false;
     [Parameter] public EventCallback OnClose { get; set; }
     [Parameter] public EventCallback OnContactMeClick { get; set; }
 
-    [Inject] private AppContent? AppContent { get; set; }
-
-    private BrandInfo _brand => AppContent?.User?.Brand ?? new();
-    private List<NavigationItem> _navigationItems => AppContent?.Layout?.NavigationLinks ?? [];
-    private NavigationItem _contactMeLink => AppContent?.Layout?.ContactMeLink ?? new();
-
-    protected override async Task OnParametersSetAsync()
-    {
-        if (IsOpened)
-            await ScrollLockService.LockScrollAsync();
-        else
-            await ScrollLockService.UnlockScrollAsync();
-    }
+    private BrandInfo _brand => AppContent.User.Brand;
+    private List<NavigationLinkInfo> _navigationItems => AppContent?.Layout?.NavigationLinks ?? [];
+    private NavigationLinkInfo _contactMeLink => AppContent.Layout.ContactMeLink;
 
     private async Task HandleContactMeClick()
     {
-        if (OnContactMeClick.HasDelegate)
-            await OnContactMeClick.InvokeAsync();
-
         await CloseMenu();
+
+        if (OnContactMeClick.HasDelegate)
+        {
+            await OnContactMeClick.InvokeAsync();
+        }
     }
 
-    public async Task CloseMenu()
+    private async Task CloseMenu()
     {
         if (OnClose.HasDelegate)
+        {
             await OnClose.InvokeAsync();
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        await ScrollLockService.ForceUnlockAsync();
+        }
     }
 }

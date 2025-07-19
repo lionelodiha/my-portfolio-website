@@ -2,13 +2,12 @@
 
 <div class="contact">
 	<div class="contact__grid">
-		<ContactForm ContactFormLayout="@_contactFormLayoutData" ServicesNames="@_serviceNames"
-			SelectedService="@_selectedService?.Name" />
+		<ContactForm ContactFormLayout="@_contactFormLayoutData" ServiceFilter="new FuzzySearchFilter()"
+			ServicesNames="@_serviceNames" SelectedService="@_selectedService?.Name" />
 
 		<div class="contact__info-grid">
-			@foreach (LinkInfo? info in _contactInfos)
+			@foreach (ExternalLinkInfo info in _contactInfos)
 			{
-				if (info is null) continue;
 				<ContactOption ContactInfo="@info" />
 			}
 		</div>
@@ -16,44 +15,25 @@
 </div>
 
 @code {
-	[Inject] private AppContent? AppContent { get; set; }
-	[Inject] private SelectedServiceState? SelectedServiceState { get; set; }
+	[Inject] private PortfolioData AppContent { get; set; } = null!;
+	[Inject] private IContactFormDataService ContactFormData { get; set; } = null!;
 
-	private ContactFormLayout _contactFormLayoutData => AppContent?.Layout?.ContactFormContent ?? new();
+	private ContactFormInfo _contactFormLayoutData => AppContent.Layout.ContactForm;
 
 	private ServiceInfo? _selectedService;
 	private List<string> _serviceNames = [];
-	private List<LinkInfo> _contactInfos = [];
+	private List<ExternalLinkInfo> _contactInfos = [];
 
 	protected override void OnInitialized()
 	{
-		ConsumeSelectedService();
-		PopulateServicesOffered();
+		_selectedService = ContactFormData.GetSelectedService();
+		_serviceNames.AddRange(ContactFormData.GetServiceNames());
 		PopulateContactInfos();
-	}
-
-	private void ConsumeSelectedService()
-	{
-		_selectedService = SelectedServiceState?.ConsumeSelectedService();
-	}
-
-	private void PopulateServicesOffered()
-	{
-		if (AppContent?.User is null) return;
-
-		foreach (ServiceInfo serviceInfo in AppContent.User.ServiceInfos)
-		{
-			_serviceNames.Add(serviceInfo.Name);
-		}
-
-		_serviceNames.Add("Others");
 	}
 
 	private void PopulateContactInfos()
 	{
-		if (AppContent?.User is null) return;
-
-		_contactInfos.AddRange(AppContent.User.ContactInfos);
+		_contactInfos.AddRange(AppContent.User.ContactLinks);
 		_contactInfos.AddRange(AppContent.User.SocialLinks);
 	}
 }

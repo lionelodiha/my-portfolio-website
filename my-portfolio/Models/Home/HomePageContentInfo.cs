@@ -1,35 +1,18 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace MyPortfolio.Models.Home;
 
-public class HomePageContentInfo(string role, string greeting, string greetingHighlighted, string description)
+public class HomePageContentInfo
 {
-	private string _role = role ?? string.Empty;
-	private string _greeting = greeting ?? string.Empty;
-	private string _greetingHighlighted = greetingHighlighted ?? string.Empty;
-	private string _description = description ?? string.Empty;
+	[Required] public required string Role { get; init; }
+	[Required] public required string Greeting { get; init; }
+	public string? GreetingHighlighted { get; init; }
+	[Required] public required string Description { get; init; }
 
-	public string Role
+	public readonly static HomePageContentInfo Default = new()
 	{
-		get => _role;
-		set => _role = value ?? string.Empty;
-	}
-
-	public string Greeting
-	{
-		get => _greeting;
-		set => _greeting = value ?? string.Empty;
-	}
-
-	public string GreetingHighlighted
-	{
-		get => _greetingHighlighted;
-		set => _greetingHighlighted = value ?? string.Empty;
-	}
-
-	public string Description
-	{
-		get => _description;
-		set => _description = value ?? string.Empty;
-	}
-
-	public HomePageContentInfo() : this("Lorem ispum", "Hello I'm", "Lorem ispum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque consequat, faucibus et, et.") {}
+		Role = string.Empty,
+		Greeting = string.Empty,
+		Description = string.Empty,
+	};
 }

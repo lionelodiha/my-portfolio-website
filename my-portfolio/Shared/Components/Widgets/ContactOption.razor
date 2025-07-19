@@ -4,19 +4,19 @@
 	</div>
 
 	<div class="contact-option__text">
-		<p class="contact-option__title">@_contactTitle</p>
+		<small class="contact-option__title">@_contactTitle</small>
 
 		<p class="contact-option__detail">
-			@switch (ContactInfo.Type)
+			@switch (ContactInfo.ExternalLinkType)
 			{
-				case LinkType.Email:
-					<a href="mailto:@ContactInfo.Link">@ContactInfo.Detail</a>
+				case ExternalLinkType.Email:
+					<a href="mailto:@ContactInfo.LinkUrl">@ContactInfo.Detail</a>
 					break;
-				case LinkType.Phone:
-					<a href="tel:@ContactInfo.Link">@ContactInfo.Detail</a>
+				case ExternalLinkType.Phone:
+					<a href="tel:@ContactInfo.LinkUrl">@ContactInfo.Detail</a>
 					break;
-				case LinkType.Link:
-					<a href="@ContactInfo.Link" target="_blank" rel="noopener noreferrer">@ContactInfo.Detail</a>
+				case ExternalLinkType.Link:
+					<a href="@ContactInfo.LinkUrl" target="_blank" rel="noopener noreferrer">@ContactInfo.Detail</a>
 					break;
 				default:
 					@ContactInfo.Detail
@@ -27,26 +27,24 @@
 </div>
 
 @code {
-	[Parameter, EditorRequired] public LinkInfo ContactInfo { get; set; } = new();
+	[Inject] private ImageLoaderService ImageLoader { get; set; } = null!;
 
-	[Inject] private IJSRuntime? JS { get; set; }
+	[Parameter, EditorRequired] public ExternalLinkInfo ContactInfo { get; set; } = ExternalLinkInfo.Default;
 
-	private string _contactIconId = $"contact-option__icon--{Guid.NewGuid():N}";
-
-	private string _contactIconUrl => ContactInfo.IconUrl;
-	private string _contactTitle => ContactInfo.Title;
-	private string _contactDetail => ContactInfo.Detail;
-
+	private readonly string _contactIconId = $"contact-option__icon--{Guid.NewGuid():N}";
 	private const string FallbackIcon = "images/web.svg";
+	private string _contactIconUrl => ContactInfo.IconUrl ?? string.Empty;
+	private string _contactTitle => ContactInfo.Title ?? string.Empty;
+	private string _contactDetail => ContactInfo.Detail ?? string.Empty;
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
-		if (firstRender && JS is not null)
+		if (firstRender)
 		{
-			await JS.InvokeVoidAsync("imageLoader.applyCssImageWithFallback", new ImageLoaderOptions
+			await ImageLoader.ApplyCssImageWithFallbackAsync(new ImageLoaderOptions
 			{
 				ElementId = _contactIconId,
-				CssProperty = "--contact-icon-image",
+				CssProperty = "--icon-image",
 				ImageUrl = _contactIconUrl,
 				FallbackUrl = FallbackIcon,
 				UseVariable = true

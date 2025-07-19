@@ -1,21 +1,15 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace MyPortfolio.Models.Service;
 
-public class ServiceInfo(string name, string description)
+public class ServiceInfo
 {
-	private string _name = name ?? string.Empty;
-	private string _description = description ?? string.Empty;
+	[Required] public required string Name { get; init; }
+	[Required] public required string Description { get; init; }
 
-	public string Name
+	public static readonly ServiceInfo Default = new()
 	{
-		get => _name;
-		set => _name = value ?? string.Empty;
-	}
-
-	public string Description
-	{
-		get => _description;
-		set => _description = value ?? string.Empty;
-	}
-
-	public ServiceInfo() : this("Lorem ipsum", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque consequat, faucibus et, et.") { }
+		Name = string.Empty,
+		Description = string.Empty,
+	};
 }

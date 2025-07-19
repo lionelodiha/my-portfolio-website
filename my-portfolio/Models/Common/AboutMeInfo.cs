@@ -1,36 +1,14 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace MyPortfolio.Models.Common;
 
-public class AboutMeInfo(string introduction, Dictionary<string, string> introDetails)
+public class AboutMeInfo
 {
-	private string _introduction = introduction ?? string.Empty;
-	private Dictionary<string, string> _introDetails = introDetails ?? [];
+	[Required] public required string Introduction { get; init; }
+	public Dictionary<string, string>? PersonalDetails { get; init; }
 
-	public string Introduction
+	public readonly static AboutMeInfo Default = new()
 	{
-		get => _introduction;
-		set => _introduction = value ?? string.Empty;
-	}
-
-	public Dictionary<string, string> IntroDetails
-	{
-		get => _introDetails
-			.Where(kv => !string.IsNullOrWhiteSpace(kv.Value))
-			.ToDictionary(kv => kv.Key, kv => kv.Value);
-
-		set => _introDetails = (value ?? [])
-			.Where(kv => !string.IsNullOrWhiteSpace(kv.Key))
-			.ToDictionary(kv => kv.Key, kv => kv.Value ?? string.Empty);
-	}
-
-	public AboutMeInfo() : this(
-		"Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat voluptatum voluptas praesentium, odit reiciendis, doloremque magni aspernatur sequi inventore excepturi laudantium cupiditate tenetur id maxime at, iusto deleniti a illo.",
-		new()
-		{
-			{ "Name", "Lorem ispum" },
-			{ "Nationality", "Lorem ispum" },
-			{ "Age", "Lorem ispum" },
-			{ "Hobbies", "Lorem ispum" },
-		}
-	)
-	{ }
+		Introduction = string.Empty,
+	};
 }

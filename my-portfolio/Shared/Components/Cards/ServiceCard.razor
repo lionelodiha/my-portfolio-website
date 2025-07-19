@@ -1,29 +1,29 @@
 <div class="service-card">
 	<div class="service-card__header">
-		<span class="service-card__number">@(ServiceNo.ToString("D2"))</span>
+		<h1 class="service-card__number">@(ServiceNo.ToString("D2"))</h1>
 
 		<button class="service-card__button" name="navigateButton" @onclick="NavigateToForm">
 			<div class="service-card__arrow" />
 		</button>
 	</div>
 
-	<h3 class="service-card__title">@_serviceName</h3>
-	<p class="service-card__description">@_serviceDescription</p>
+	<h3 class="service-card__title">@_name</h3>
+	<p class="service-card__description">@_description</p>
 </div>
 
 @code {
+	[Inject] private NavigationManager NavigationManager { get; set; } = null!;
+	[Inject] private SelectedServiceState SelectedServiceState { get; set; } = null!;
+
 	[Parameter, EditorRequired] public int ServiceNo { get; set; } = 0;
-	[Parameter, EditorRequired] public ServiceInfo Service { get; set; } = new();
+	[Parameter, EditorRequired] public ServiceInfo Service { get; set; } = ServiceInfo.Default;
 
-	[Inject] private NavigationManager? NavigationManager { get; set; }
-	[Inject] private SelectedServiceState? SelectedServiceState { get; set; }
+	private string _name => Service.Name;
+	private string _description => Service.Description;
 
-	private string _serviceName => Service.Name;
-	private string _serviceDescription => Service.Description;
-
-	void NavigateToForm()
+	private void NavigateToForm()
 	{
-		SelectedServiceState?.SetSelectedService(Service);
-		NavigationManager?.NavigateTo("contact");
+		SelectedServiceState.SetSelectedService(Service);
+		NavigationManager.NavigateTo("contact");
 	}
 }
