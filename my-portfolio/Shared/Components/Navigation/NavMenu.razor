@@ -9,45 +9,26 @@
             {
                 <NavLinkItem NavigationLinkInfo="item" ExternalLinkType="TargetUrlFormat.Plain" />
             }
-
-            <div class="nav-bar__contact-link">
-                <NavLinkItem NavigationLinkInfo="@_contactMeLink" ExternalLinkType="TargetUrlFormat.Plain"
-                    OnNavItemClick="ShowContactModal" IsButton="true" />
-            </div>
         </div>
 
         <button type="button" class="nav-bar__toggle-btn nav-bar__toggle-btn--mask" title="Toggle menu"
             @onclick="ToggleSidebar" />
     </div>
 
-    <SideMenu IsOpened="@_isSidebarOpen" OnClose="@ToggleSidebar" OnContactMeClick="ShowContactModal" />
-
-    <Modal IsVisible="@_isContactModalVisible" IsVisibleChanged="@OnModalVisibilityChanged" ModalTitle="Let's Connect">
-        <ContactForm ContactFormLayout="@_contactFormLayoutData" ServiceFilter="new FuzzySearchFilter()"
-            ServicesNames="@_serviceNames" SelectedService="@_selectedService?.Name" />
-    </Modal>
+    @if (_isSidebarOpen)
+    {
+        <SideMenu IsOpened="true" OnClose="ToggleSidebar" />
+    }
 </nav>
 
 @code {
     [Inject] private PortfolioData AppContent { get; set; } = null!;
     [Inject] private ScrollLockService ScrollLockService { get; set; } = null!;
-    [Inject] private IContactFormDataService ContactFormData { get; set; } = null!;
     [Inject] private ResizeEventListenerService<NavMenu> ResizeListener { get; set; } = null!;
 
     private bool _isSidebarOpen = false;
-    private bool _isContactModalVisible = false;
     private BrandInfo _brand => AppContent.User.Brand;
-    private NavigationLinkInfo _contactMeLink => AppContent.Layout.ContactMeLink;
     private List<NavigationLinkInfo> _navigationLinks => AppContent.Layout.NavigationLinks;
-    private ContactFormInfo _contactFormLayoutData => AppContent.Layout.ContactForm;
-    private ServiceInfo? _selectedService;
-    private List<string> _serviceNames = [];
-
-    protected override void OnInitialized()
-    {
-        _selectedService = ContactFormData.GetSelectedService();
-        _serviceNames.AddRange(ContactFormData.GetServiceNames());
-    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -80,23 +61,6 @@
         {
             await ScrollLockService.UnlockScrollAsync();
         }
-    }
-
-    private async Task ShowContactModal()
-    {
-        if (_isSidebarOpen)
-        {
-            _isSidebarOpen = false;
-            await ScrollLockService.UnlockScrollAsync();
-        }
-
-        _isContactModalVisible = true;
-    }
-
-    private Task OnModalVisibilityChanged(bool value)
-    {
-        _isContactModalVisible = value;
-        return Task.CompletedTask;
     }
 
     public async ValueTask DisposeAsync()

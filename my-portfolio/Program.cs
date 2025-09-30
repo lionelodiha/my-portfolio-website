@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Components.Web;
+﻿using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MyPortfolio;
 using MyPortfolio.Contracts.ContactForm;
@@ -17,7 +17,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 // ---------- Core Services ----------
 builder.Services.AddScoped(sp => new HttpClient
 {
-	BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
+    BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
 });
 builder.Services.AddScoped<YamlLoaderService>();
 
@@ -37,24 +37,29 @@ builder.Services.AddScoped<EmailSubmitHandler>();
 // ---------- Configurations ----------
 builder.Services.Configure<EmailSubmitSettings>(options =>
 {
-	options.IsEnabled = false;
+    options.IsEnabled = true;
 });
 
 // ---------- Load YAML Configuration Before App Starts ----------
 using ServiceProvider? tempProvider = builder.Services.BuildServiceProvider();
 var loader = tempProvider.GetRequiredService<YamlLoaderService>();
 
-var userProfile = await loader.LoadYamlAsync<UserProfileData>("data/default-profile.yaml")
-	?? throw new InvalidOperationException("Failed to load or validate profile data.");
+var userProfile = await loader.LoadYamlAsync<UserProfileData>("data/profile.yaml");
+if (userProfile is null)
+{
+    Console.WriteLine("profile.yaml missing or invalid, falling back to default-profile.yaml.");
+    userProfile = await loader.LoadYamlAsync<UserProfileData>("data/default-profile.yaml")
+        ?? throw new InvalidOperationException("Failed to load or validate profile data.");
+}
 
 var layout = await loader.LoadYamlAsync<AppLayoutData>("data/layout.yaml")
-	?? throw new InvalidOperationException("Failed to load or validate layout data.");
+    ?? throw new InvalidOperationException("Failed to load or validate layout data.");
 
 // ---------- Register Loaded Data as Singleton ----------
 builder.Services.AddSingleton(new PortfolioData
 {
-	User = userProfile,
-	Layout = layout
+    User = userProfile,
+    Layout = layout
 });
 
 // ---------- Run Application ----------

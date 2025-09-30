@@ -1,13 +1,15 @@
-﻿@inherits LayoutComponentBase
+@inherits LayoutComponentBase
 
 <PageTitle>My Portfolio</PageTitle>
 
 <div class="page">
-	<nav class="page__nav-bar">
-		<NavMenu />
-	</nav>
+    <nav class="page__nav-bar">
+        <NavMenu />
+    </nav>
 
-	<main class="page__content">
-		@Body
-	</main>
+    <main class="page__content">
+        <div class="page__content-inner">
+            @Body
+        </div>
+    </main>
 </div>
