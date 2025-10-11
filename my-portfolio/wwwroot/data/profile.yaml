@@ -3,7 +3,7 @@ brand:
   brandHighlightedDisplayName: "Cenzo."
   brandRawTargetUrl: "/"
 
-profileImageUrl: "https://github.com/GOSIjnr.png"
+profileImageUrl: "images/profile-photo.jpg"
 
 socialLinks:
   - iconUrl: "https://api.iconify.design/simple-icons/github.svg"
@@ -59,11 +59,11 @@ contactLinks:
     externalLinkType: 0
 
 projects:
-  - title: "Expense Tracker API"
-    description: "ASP.NET Core 8 Web API for tracking expenses, budgets, and savings goals with JWT auth and Swagger docs."
+  - title: "ExpenseTrackerAPI"
+    description: "ASP.NET Core 8 Web API for tracking expenses, budgets, and savings goals with JWT authentication and Swagger documentation."
     technologies:
       - "C#"
-      - "ASP.NET Core 8"
+      - "ASP.NET Core"
       - "MySQL"
     imageUrl: "images/no-image.svg"
     liveLink:
@@ -75,7 +75,7 @@ projects:
         title: "Repository"
 
   - title: "My Portfolio Website"
-    description: "Static personal site built with HTML/CSS."
+    description: "Personal portfolio website built with HTML and CSS showcasing projects and skills."
     technologies:
       - "HTML"
       - "CSS"
@@ -89,7 +89,7 @@ projects:
         title: "Repository"
 
   - title: "Practice React"
-    description: "Playground for React components/layouts (CRACO setup)."
+    description: "React practice repository for learning and experimenting with React components and layouts using CRACO configuration."
     technologies:
       - "React"
       - "JavaScript"
@@ -104,7 +104,7 @@ projects:
         title: "Repository"
 
   - title: "Oluxereality Project"
-    description: "Landing-page prototype using HTML/CSS with external assets."
+    description: "Modern landing page prototype built with HTML and CSS featuring responsive design and external assets."
     technologies:
       - "HTML"
       - "CSS"
@@ -117,8 +117,8 @@ projects:
         externalLinkType: 2
         title: "Repository"
 
-  - title: "ghactions"
-    description: "Sandbox repo reserved for GitHub Actions experiments."
+  - title: "GitHub Actions"
+    description: "Experimental repository for testing and learning GitHub Actions workflows and CI/CD automation."
     technologies:
       - "GitHub Actions"
       - "YAML"
