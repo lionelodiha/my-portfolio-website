@@ -4,6 +4,7 @@ using MyPortfolio;
 using MyPortfolio.Contracts.ContactForm;
 using MyPortfolio.Models.Data;
 using MyPortfolio.Services.Browser;
+using MyPortfolio.Services.Config;
 using MyPortfolio.Services.ContactForm;
 using MyPortfolio.Services.Loader;
 using MyPortfolio.Services.StateManagement;
@@ -38,6 +39,15 @@ builder.Services.AddScoped<EmailSubmitHandler>();
 builder.Services.Configure<EmailSubmitSettings>(options =>
 {
     options.IsEnabled = true;
+});
+
+builder.Services.Configure<EmailJSConfig>(options =>
+{
+    // TODO: Replace these with your EmailJS credentials
+    // Get them from: https://dashboard.emailjs.com/
+    options.ServiceId = "service_b3y96ek";      // e.g., "service_abc123"
+    options.TemplateId = "template_c3v4upl";    // e.g., "template_xyz789"
+    options.PublicKey = "OhX6iFpMWIPEVKoNu";      // e.g., "user_ABC123xyz"
 });
 
 // ---------- Load YAML Configuration Before App Starts ----------

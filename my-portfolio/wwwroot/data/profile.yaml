@@ -20,7 +20,7 @@ socialLinks:
 
   - iconUrl: "https://api.iconify.design/simple-icons/x.svg"
     title: "X"
-    detail: "@GOSIjnr"
+    detail: "@lionelodiha"
     linkUrl: "https://x.com/leovincenzo10?s=09"
     externalLinkType: 2
 
@@ -136,7 +136,7 @@ aboutMeInfo:
   introduction: "Hi, I'm Odiha Nnagozie Lionel, a developer who enjoys building smooth, intuitive digital experiences and solving technical challenges. I work across the stack, explore new tech, and occasionally dive into game engines for fun."
   personalDetails:
     Name: "Odiha Nnagozie Lionel"
-    Experience: "3 years"
+    Experience: "3.5 years"
     Nationality: "Nigerian"
     Email: "odihalionel@gmail.com"
     Language: "English"
@@ -197,7 +197,7 @@ skills:
 
 
 stats:
-  - number: 5
+  - number: 3.5
     numberPrefix: "+"
     labelLine1: "Years of"
     labelLine2: "Experience"
